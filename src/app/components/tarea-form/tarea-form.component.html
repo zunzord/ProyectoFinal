@@ -1,0 +1,58 @@
+<ion-header translucent="true">
+    <ion-toolbar>
+      <ion-title>Registrar Tarea</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content fullscreen="true">
+    <form [formGroup]="tareaForm" (ngSubmit)="guardarTarea()">
+      <ion-list lines="full" class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Descripción de la Tarea</ion-label>
+          <ion-input formControlName="descripcion" type="text"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Fecha de Vencimiento</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" formControlName="fechaVencimiento"></ion-datetime>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Prioridad</ion-label>
+          <ion-select formControlName="prioridad">
+            <ion-select-option value="alta">Alta</ion-select-option>
+            <ion-select-option value="media">Media</ion-select-option>
+            <ion-select-option value="baja">Baja</ion-select-option>
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Categoría</ion-label>
+          <ion-select formControlName="categoria">
+            <ion-select-option value="trabajo">Trabajo</ion-select-option>
+            <ion-select-option value="personal">Personal</ion-select-option>
+            
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Recordatorio</ion-label>
+          <ion-checkbox slot="start" formControlName="recordatorio"></ion-checkbox>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="floating">Notas adicionales</ion-label>
+          <ion-textarea formControlName="notas"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Meta relacionada</ion-label>
+          <ion-select formControlName="metaId">
+            <ion-select-option *ngFor="let meta of metas" [value]="meta.id">{{ meta.nombre }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+      </ion-list>
+      <ion-button type="submit" expand="block">Guardar Tarea</ion-button>
+    </form>
+  </ion-content>

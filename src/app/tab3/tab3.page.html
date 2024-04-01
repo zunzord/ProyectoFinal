@@ -1,17 +1,53 @@
-<ion-header [translucent]="true">
+<ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Metas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content fullscreen="true">
+  <ion-list>
+    <ion-item *ngFor="let meta of metas" (dblclick)="presentActionSheet(meta.id)">
+      <ion-label>
+        <h2>{{ meta.nombre }}</h2>
+        <p>{{ meta.descripcion }}</p>
+        <!-- Otros detalles de la meta aquí -->
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="mostrarFormularioMeta()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+
+
+<!--<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Metas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-list>
+   
+    <ion-item *ngFor="let meta of metas">
+      <ion-label>
+        <h2>{{ meta.nombre }}</h2>
+        <p>{{ meta.descripcion }}</p>
+       
+        <ion-note>Completado: {{ meta.porcentajeCompletado }}%</ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+ 
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="mostrarFormularioMeta()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>-->
+

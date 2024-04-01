@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  ion-button {
+    --border-radius: 50%;
+    --background-image: url('/assets/icon/favicon.png');
+    --background-repeat: no-repeat;
+    --background-position: center center;
+    --background-size: cover;
+    width: 80vw;
+    height: 80vw;
+    max-width: 90%;
+    max-height: 90%;
+    min-width: 300px;
+    min-height: 300px;
+  }
+
+  .image-button {
+    background-image: url('/assets/icon/contrasena.png');
+    background-size: contain; /* Asegura que la imagen se ajuste dentro del botón sin cortarse */
+    background-position: center; /* Centra la imagen en el botón */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    width: 50vw; /* Ajusta el ancho a un porcentaje del ancho de la pantalla */
+    height: 50vh; /* Ajusta la altura a un porcentaje de la altura de la pantalla */
+    max-width: 600px; /* Establece un ancho máximo para grandes pantallas */
+    max-height: 600px; /* Establece una altura máxima para grandes pantallas */
+    min-width: 200px; /* Establece un ancho mínimo para pantallas pequeñas */
+    min-height: 200px; /* Establece una altura mínima para pantallas pequeñas */
+    border-radius: 50%; /* Mantiene la forma circular */
+  }
+
+  .image-button:active {
+    opacity: 0.7; /* Hace que el botón se vea ligeramente transparente al hacer clic */
+  }
+
+  .label-clickeable {
+    transition: transform 0.1s ease-in-out;
+  }
+  
+  .label-clickeable.clicked {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+
+  ion-toolbar {
+    --background: transparent; // Hace el fondo del toolbar transparente si lo deseas
+    ion-title {
+      color: #8e44ad; // Un tono de púrpura elegante
+      font-weight: bold; // Hace que el texto sea negrita
+      font-size: 1.2em; // Ajusta el tamaño del texto a tu gusto
+      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); // Opcional: añade una sombra ligera para darle profundidad
+    }
+  }

@@ -1,0 +1,37 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Registrar Meta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <form [formGroup]="formaMeta" (ngSubmit)="registrarMeta()">
+    <ion-list lines="full" class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Nombre de la Meta</ion-label>
+        <ion-input formControlName="nombre"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea formControlName="descripcion"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Fecha de Vigencia</ion-label>
+        <ion-datetime formControlName="tiempoVigencia" displayFormat="MMM DD, YYYY" placeholder="Seleccione una fecha"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Tareas por semana</ion-label>
+        <ion-input type="number" formControlName="frecuenciaSemanal"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Recordatorio</ion-label>
+        <ion-toggle formControlName="recordatorio"></ion-toggle>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" type="submit">Guardar Meta</ion-button>
+  </form>
+</ion-content>

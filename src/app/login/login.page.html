@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title (click)="mostrarRegistro()">Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+  <div class="container">
+   
+    <!-- Botón para iniciar la autenticación biométrica manualmente (opcional) -->
+    <div class="image-button" (dblclick)="loginConClave()" (click)="loginBiometric()"></div>
+    <!--<div class="image-button" (click)="loginBiometric()" *ngIf="!mostrarInputClave"></div>-->
+    
+    <!-- Opción de ingresar clave, mostrada si mostrarInputClave es true -->
+    <div *ngIf="mostrarInputClave">
+      <form (ngSubmit)="loginConClave()">
+        <ion-item>
+         <!-- <ion-label position="floating">Clave</ion-label>-->
+          <ion-input type="password" [(ngModel)]="clave" name="clave"></ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="block">Ingresar</ion-button>
+      </form>
+    </div>
+  </div>  
+</ion-content>

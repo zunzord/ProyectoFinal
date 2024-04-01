@@ -1,0 +1,51 @@
+ion-list {
+    --border-width: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-img {
+    max-width: 80%;
+    margin: auto;
+  }
+
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  ion-title {
+    color: #603c99; /* Ajusta el color al que mejor se adapte a tu diseño */
+    text-align: center; /* Esto no siempre es necesario, ya que ion-title debería centrarse automáticamente */
+    font-size: 20px; /* Ajusta según la estética deseada */
+    font-weight: bold; /* Opcional, para darle énfasis */
+  }
+
+  .title-box {
+    display: inline-block;
+    background-color: #666; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 8px 16px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra opcional */
+  }
+
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  
+  .non-selected-python {
+    animation: blink 2s linear infinite;
+    color: #8a2be2; /* Color púrpura */
+  }

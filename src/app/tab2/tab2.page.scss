@@ -1,0 +1,34 @@
+
+
+  ion-header {
+    --background: #fff; 
+  }
+  
+  ion-toolbar {
+    --background: #fff; 
+  }
+  
+  ion-title {
+    color: #000; 
+  }
+  
+  ion-content {
+    --background: #f0f0f5; 
+  }
+  
+  ion-button {
+    --background: #007aff; 
+    --color: #fff; 
+  }
+
+  .tarea-vencida {
+    --background: red;
+  }
+
+  .tarea-vencida {
+    --background: #ffcccc; /* Un color rojo para indicar que la tarea está vencida */
+  }
+  
+  .tarea-completada {
+    --background: #d9ffd9; /* Un color verde para indicar que la tarea está completada */
+  }

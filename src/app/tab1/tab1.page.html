@@ -1,17 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-text-center ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Dashboard</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-img src="/assets/icon/Logo-blanco-UAPA.png" style="max-width: 40%; height: auto;"></ion-img>
+  <h2>Creatividad para Tarea IV</h2>
+  <ion-label>Eniel Nicolás Vargas Sánchez</ion-label>
+  <ion-label>ID: 100037464</ion-label>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentarOpcionesUbicacion()">
+      <ion-icon name="locate"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-button (click)="mostrarMapaParaSeleccion2()">Seleccionar Ubicación Manualmente</ion-button>
+<div *ngIf="mostrarMapa" #map style="height: 300px;"></div>
+  
+
+ 
+
 </ion-content>
