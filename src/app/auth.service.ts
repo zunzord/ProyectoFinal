@@ -5,13 +5,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  // Cambia Subject por BehaviorSubject para mantener un estado inicial
-  private authStatus = new BehaviorSubject<boolean>(false); // Inicia como no autenticado
-  public authStatus$ = this.authStatus.asObservable(); // Exponer como observable para suscripción
+  
+  private authStatus = new BehaviorSubject<boolean>(false); 
+  public authStatus$ = this.authStatus.asObservable(); 
 
   constructor() { }
 
-  // Método para actualizar el estado de autenticación
+  
   updateAuthStatus(isAuthenticated: boolean): void {
     this.authStatus.next(isAuthenticated);
   }

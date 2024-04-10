@@ -11,16 +11,19 @@
   <ion-label>Eniel Nicolás Vargas Sánchez</ion-label>
   <ion-label>ID: 100037464</ion-label>
 
+  <!-- Botón existente para registrar ubicación -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="presentarOpcionesUbicacion()">
       <ion-icon name="locate"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-button (click)="mostrarMapaParaSeleccion2()">Seleccionar Ubicación Manualmente</ion-button>
-<div *ngIf="mostrarMapa" #map style="height: 300px;"></div>
-  
+  <!-- Nuevo botón para seleccionar ubicación manualmente -->
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="mostrarMapaParaSeleccion2()">
+      <ion-icon name="hand-left"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
- 
-
+  <div *ngIf="mostrarMapa" #map style="height: 300px;"></div>
 </ion-content>

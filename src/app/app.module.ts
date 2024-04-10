@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { IonicStorageModule } from '@ionic/storage-angular'; // Asegúrate de importar IonicStorageModule
+import { IonicStorageModule } from '@ionic/storage-angular'; 
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '../environments/environment'; // Asegúrate de que este es el camino correcto a tu archivo de configuración de Firebase
+import { environment } from '../environments/environment'; 
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { environment } from '../environments/environment'; // Asegúrate de que 
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    IonicStorageModule.forRoot(), // Añade IonicStorageModule aquí
+    IonicStorageModule.forRoot(), 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],

@@ -8,7 +8,7 @@ describe('LoginPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginPage ]
-      // Asegúrate de incluir cualquier módulo o dependencia adicional necesaria aquí
+      
     })
     .compileComponents();
   }));

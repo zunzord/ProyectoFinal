@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class MetaFormComponent implements OnInit {
   formaMeta: FormGroup;
-  metaOriginal: any = null; // Usaremos esto para almacenar los datos de la meta si estamos editando
+  metaOriginal: any = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -19,7 +19,7 @@ export class MetaFormComponent implements OnInit {
     private alertController: AlertController,
     private metasService: MetasService,
     private storage: Storage,
-    private navParams: NavParams // Añadido para recibir datos del modal
+    private navParams: NavParams 
   ) {
     this.formaMeta = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -31,10 +31,10 @@ export class MetaFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Verificamos si estamos editando una meta existente
+    
     this.metaOriginal = this.navParams.get('meta');
     if (this.metaOriginal) {
-      // Si hay una meta, prellenamos el formulario con sus datos
+     
       this.formaMeta.patchValue(this.metaOriginal);
     }
   }
@@ -44,10 +44,10 @@ export class MetaFormComponent implements OnInit {
     if (this.formaMeta.valid && usuarioId) {
       const meta = { ...this.formaMeta.value, usuarioId };
       if (this.metaOriginal && this.metaOriginal.id) {
-        // Si es una edición, actualizar la meta existente
+       
         await this.metasService.actualizarMeta(this.metaOriginal.id, meta, usuarioId);
       } else {
-        // Si es una nueva meta, agregarla
+       
         await this.metasService.agregarMeta(meta, usuarioId);
       }
       await this.mostrarAlertaExito();

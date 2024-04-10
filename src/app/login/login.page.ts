@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NativeBiometric } from 'capacitor-native-biometric';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular'; // Importa Storage
+import { Storage } from '@ionic/storage-angular'; 
 import { App } from '@capacitor/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as CryptoJS from 'crypto-js';
@@ -24,7 +24,7 @@ interface Usuario {
 })
 export class LoginPage {
   clave: string = '';
-  mostrarInputClave: boolean = false; // Controla la visibilidad del input de clave
+  mostrarInputClave: boolean = false; 
   generarUUID(): string {
     return 'xxxx-xxxx-4xxx-yxxx-xxxx-yyyy'.replace(/[xy]/g, function(c) {
       const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -39,23 +39,23 @@ export class LoginPage {
   }
 
   async iniciarAutenticacion() {
-    // Espera a que el usuario coloque su dedo durante 15 segundos
+    
     setTimeout(() => {
       this.loginBiometric();
-    }, 15000); // 15 segundos
+    }, 15000); 
     this.router.navigateByUrl('./login.page');
   }
 
   
   manejarToque() {
-    // Muestra el input para ingresar la clave
+    
     this.mostrarInputClave = true;
-    // Aquí podrías restablecer el valor de `clave` si es necesario
+    
     this.clave = '';
   }
 
   irARegistro() {
-    // Navegar a la página de registro
+    
     this.router.navigateByUrl('./login.page');
   }
 
@@ -79,7 +79,7 @@ export class LoginPage {
                     const usuarioExistente = usuarios.find(usuario => usuario.correo === data.correo);
 
                     if (!usuarioExistente) {
-                        // No existe el usuario, así que procedemos a agregarlo.
+                        
                         usuarios.push({
                             nombre: data.nombre,
                             apellido: data.apellido,
@@ -91,7 +91,7 @@ export class LoginPage {
                         this.mostrarAlerta('REGISTRADO!', 'Ya puede utilizar sus credenciales.');
                         this.router.navigateByUrl('/login');
                     } else {
-                        // Usuario ya existe, mostrar error.
+                        
                         this.mostrarAlerta('Error', 'Ya existe una cuenta con este correo electrónico.');
                     }
                 }
@@ -103,18 +103,18 @@ export class LoginPage {
 }
 
   async registrarUsuario(nombre: string, apellido: string, correo: string, clave: string) {
-    // Aquí iría el código para guardar los datos del usuario, por ejemplo, en Ionic Storage o alguna otra base de datos.
     
-    // Simular registro de huella dactilar
+    
+    
     const tokenHuella = this.generarTokenHuella();
     console.log(`Registro completado. Token de huella: ${tokenHuella}`);
   
-    // Opcionalmente, mostrar un mensaje de éxito o realizar alguna acción adicional
+   
     this.mostrarAlertaRegistroExitoso();
   }
   
   generarTokenHuella(): string {
-    // Generar un token único para la huella dactilar. Esto es solo una simulación.
+    
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
   
@@ -164,7 +164,7 @@ export class LoginPage {
             const usuarioValido = usuarios.find(usuario => usuario.correo === data.correo && usuario.clave === claveHash);
     
             if (usuarioValido) {
-              // Almacenar el identificador del usuario de manera cifrada en Ionic Storage
+              
               const claveHashUsuario = CryptoJS.SHA256(usuarioValido.id).toString(CryptoJS.enc.Hex);
               await this.storage.set('usuarioActual', claveHashUsuario);
   
@@ -183,7 +183,7 @@ export class LoginPage {
         {
           text: 'Olvidé mi contraseña',
           handler: async () => {
-            // Lógica para recuperar contraseña
+            
           }
         },
       ]
@@ -235,17 +235,17 @@ export class LoginPage {
   async loginBiometric() {
     const available = await NativeBiometric.isAvailable();
     if (!available.isAvailable || !this.mostrarInputClave) {
-      // Si no está disponible o si ya se está mostrando el input de clave, muestra la opción de ingresar clave
+      
       this.mostrarInputClave = true;
-      // Espera otros 20 segundos para ingresar la clave
+     
       setTimeout(() => {
         if (!this.clave) {
-          // Si después de 20 segundos no se ha ingresado una clave, cierra la aplicación
-          App.exitApp(); // Usa el plugin de Cordova para cerrar la app
+          
+          App.exitApp(); 
         }
-      }, 20000); // 20 segundos
+      }, 20000); 
     } else {
-      // Aquí continúa la lógica de autenticación biométrica...
+      //  lógica de autenticación biométrica incompleta por falta de tiempo y priorizando otras funciones...
     }
   }
 }

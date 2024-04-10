@@ -38,12 +38,12 @@ export class TareasService {
     return [];
   }
 
-  async actualizarTarea(tareaId: string, tareaActualizada: any): Promise<void> {
+  async actualizarTarea(tareaId: string, datosActualizados: any) {
     const usuarioId = await this.obtenerUsuarioId();
-    const tareas = await this.obtenerTareas();
-    const tareaIndex = tareas.findIndex(t => t.id === tareaId && t.usuarioId === usuarioId);
-    if (tareaIndex !== -1) {
-      tareas[tareaIndex] = { ...tareas[tareaIndex], ...tareaActualizada };
+    let tareas = await this.obtenerTareas();
+    const index = tareas.findIndex(t => t.id === tareaId && t.usuarioId === usuarioId);
+    if (index !== -1) {
+      tareas[index] = {...tareas[index], ...datosActualizados};
       await this.storage.set('tareas-' + usuarioId, JSON.stringify(tareas));
     }
   }

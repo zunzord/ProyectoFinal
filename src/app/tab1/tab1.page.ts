@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage-angular';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
+
 declare var google: any;
 
 @Component({
@@ -333,5 +334,18 @@ mostrarMapaParaSeleccion2() {
     this.initializeMap();
   });
 }
+
+/*async mostrarMapaParaSeleccion2() {
+  const modal = await this.modalCtrl.create({
+    component: MapaSeleccionComponent, // Asegúrate de importar MapaSeleccionComponent
+    // Aquí puedes pasar datos al modal si es necesario
+  });
+  await modal.present();
+
+  const { data } = await modal.onWillDismiss();
+  if (data) {
+    // Maneja los datos devueltos por el modal si es necesario
+  }
+}*/
   
 }

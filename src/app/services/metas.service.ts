@@ -11,7 +11,7 @@ export class MetasService {
     this.init();
   }
 
-  // Inicializar el almacenamiento
+  
   async init() {
     await this.storage.create();
     await this.cargarMetas();
@@ -23,21 +23,26 @@ export class MetasService {
     await this.guardarMetas();
   }
 
-  async obtenerMetas(usuarioId: string) {
-    return this.metas.filter(meta => meta.usuarioId === usuarioId);
+  async obtenerMetas(usuarioId: string): Promise<any[]> {
+    const metasCifradas = await this.storage.get(`metas-${usuarioId}`);
+    return metasCifradas ? JSON.parse(metasCifradas) : [];
   }
 
+  
   async actualizarMeta(metaId: string, cambios: any, usuarioId: string) {
-    const index = this.metas.findIndex(meta => meta.id === metaId && meta.usuarioId === usuarioId);
+    let metas = await this.obtenerMetas(usuarioId);
+    const index = metas.findIndex(meta => meta.id === metaId);
     if (index !== -1) {
-      this.metas[index] = { ...this.metas[index], ...cambios };
-      await this.guardarMetas();
+      metas[index] = { ...metas[index], ...cambios };
+      await this.storage.set(`metas-${usuarioId}`, JSON.stringify(metas));
     }
   }
 
+  
   async eliminarMeta(metaId: string, usuarioId: string) {
-    this.metas = this.metas.filter(meta => meta.id !== metaId && meta.usuarioId === usuarioId);
-    await this.guardarMetas();
+    let metas = await this.obtenerMetas(usuarioId);
+    metas = metas.filter(meta => meta.id !== metaId);
+    await this.storage.set(`metas-${usuarioId}`, JSON.stringify(metas));
   }
 
   private async cargarMetas() {
@@ -55,69 +60,3 @@ export class MetasService {
 
 
 
-/*import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class MetasService {
-  private metas: any[] = [];
-
-  constructor() { }
-
-  async agregarMeta(meta: any, usuarioId: string) {
-    const metaConIdYUsuario = { ...meta, id: Date.now().toString(), usuarioId: usuarioId };
-    this.metas.push(metaConIdYUsuario);
-    await this.guardarMetas(); // Si estás utilizando persistencia
-  }
-
-  async obtenerMetas(usuarioId: string) {
-    await this.cargarMetas(); // Si estás utilizando persistencia
-    return this.metas.filter(meta => meta.usuarioId === usuarioId);
-  }
-
-  async actualizarMeta(metaId: string, cambios: any) {
-    const index = this.metas.findIndex(meta => meta.id === metaId);
-    if (index !== -1) {
-      this.metas[index] = { ...this.metas[index], ...cambios };
-      await this.guardarMetas(); // Si estás utilizando persistencia
-    }
-  }
-
-  async eliminarMeta(metaId: string) {
-    this.metas = this.metas.filter(meta => meta.id !== metaId);
-    await this.guardarMetas(); // Si estás utilizando persistencia
-  }
-
-  // Métodos de ayuda para cargar y guardar metas (si estás utilizando persistencia)
-  private async cargarMetas() {
-    // Implementar lógica de carga
-  }
-
-  private async guardarMetas() {
-    // Implementar lógica de guardado
-  }
-}*/
-
-
-
-
-
-
-/*import { Injectable } from '@angular/core';
-
-
-@Injectable({
-  providedIn: 'root'
-})
-export class MetasService {
-  private metas: any[] = [];
-  constructor() { }
-  agregarMeta(meta: any) {
-    this.metas.push(meta);
-  }
-
-  obtenerMetas() {
-    return this.metas;
-  }
-}*/

@@ -57,26 +57,42 @@ export class Tab2Page implements OnInit {
   }
 
   async ordenarTareasPorProximidad() {
-    const ubicacionActual = await this.obtenerUbicacionActual();
-    const ubicacionCasa = await this.storage.get('casa'); 
-    const ubicacionTrabajo = await this.storage.get('trabajo'); 
+    try {
+      const ubicacionActual = await this.obtenerUbicacionActual();
+      const ubicacionCasaStr = await this.storage.get('casa');
+      const ubicacionTrabajoStr = await this.storage.get('trabajo');
+      let distanciaCasa = Number.MAX_SAFE_INTEGER;
+      let distanciaTrabajo = Number.MAX_SAFE_INTEGER;
   
-    const distanciaCasa = this.calcularDistancia(ubicacionActual.coords.latitude, ubicacionActual.coords.longitude, ubicacionCasa.lat, ubicacionCasa.lng);
-    const distanciaTrabajo = this.calcularDistancia(ubicacionActual.coords.latitude, ubicacionActual.coords.longitude, ubicacionTrabajo.lat, ubicacionTrabajo.lng);
+      // Verificar si las ubicaciones de casa y trabajo están disponibles antes de calcular las distancias
+      if (ubicacionCasaStr) {
+        const ubicacionCasa = JSON.parse(ubicacionCasaStr);
+        distanciaCasa = this.calcularDistancia(ubicacionActual.coords.latitude, ubicacionActual.coords.longitude, ubicacionCasa.lat, ubicacionCasa.lng);
+      }
+      if (ubicacionTrabajoStr) {
+        const ubicacionTrabajo = JSON.parse(ubicacionTrabajoStr);
+        distanciaTrabajo = this.calcularDistancia(ubicacionActual.coords.latitude, ubicacionActual.coords.longitude, ubicacionTrabajo.lat, ubicacionTrabajo.lng);
+      }
   
-    const masCercano = distanciaCasa < distanciaTrabajo ? 'casa' : 'trabajo';
+      const masCercano = distanciaCasa < distanciaTrabajo ? 'casa' : 'trabajo';
   
-    
-    let tareasOrdenadas = [];
-    if (masCercano === 'casa') {
-      
-      tareasOrdenadas = this.tareas.sort((a, b) => a.tipoUbicacion === 'casa' ? -1 : 1);
-    } else {
-      
-      tareasOrdenadas = this.tareas.sort((a, b) => a.tipoUbicacion === 'trabajo' ? -1 : 1);
+      // Ordenar las tareas basadas en la proximidad
+      let tareasOrdenadas = this.tareas.sort((a, b) => {
+        if (a.tipoUbicacion === masCercano && b.tipoUbicacion !== masCercano) {
+          return -1;
+        } else if (a.tipoUbicacion !== masCercano && b.tipoUbicacion === masCercano) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+  
+      return tareasOrdenadas;
+    } catch (error) {
+      console.error('Error al ordenar tareas por proximidad:', error);
+      // En caso de error, devuelve las tareas sin ordenar
+      return this.tareas;
     }
-  
-    return tareasOrdenadas;
   }
 
   async abrirFormularioTarea(tareaId?: string) {
@@ -159,9 +175,10 @@ export class Tab2Page implements OnInit {
     const tareas = await this.tareasService.obtenerTareas();
     const tarea = tareas.find(t => t.id === tareaId);
     if (tarea) {
-      const datosActualizados = { ...tarea, completada: true }; // Asumiendo que 'completada' es el campo a actualizar
+      // Alternar el estado de completada
+      const datosActualizados = { ...tarea, completada: !tarea.completada }; // Alternar el valor de 'completada'
       await this.tareasService.actualizarTarea(tareaId, datosActualizados);
-      console.log(`Tarea ${tareaId} marcada como completada`);
+      console.log(`Tarea ${tareaId} actualizada. Completada: ${datosActualizados.completada}`);
       await this.cargarTareas();
     }
   }

@@ -30,7 +30,8 @@ export class TareaFormComponent implements OnInit {
       categoria: [''],
       recordatorio: [false],
       notas: [''],
-      metaId: [null]
+      metaId: [null],
+      completada: [Boolean]
     });
 
     if (this.navParams.get('tarea')) {
