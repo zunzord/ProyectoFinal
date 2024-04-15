@@ -327,13 +327,48 @@ async guardarUbicacionSeleccionada(latLng: google.maps.LatLng, tipoUbicacion: 'c
 
   mostrarMapa = false; // Controla la visibilidad del mapa
 
-mostrarMapaParaSeleccion2() {
-  this.mostrarMapa = true;
-  // Luego de establecer mostrarMapa a true, carga el mapa
-  this.loadGoogleMapsScript().then(() => {
-    this.initializeMap();
-  });
+  async mostrarMapaParaSeleccion2(tipoUbicacion: 'casa' | 'trabajo') {
+    this.initializeOrResetMap();
+    this.mapElement.nativeElement.style.display = 'block';
+    google.maps.event.clearListeners(this.map, 'dblclick');
+    this.map.addListener('dblclick', async (e: any) => {
+        const confirmacion = await this.confirmarGuardarUbicacion(e.latLng);
+        if (confirmacion) {
+            this.guardarUbicacionSeleccionada(e.latLng, tipoUbicacion);
+        }
+    });
 }
+async elegirUbicacionYMostrarMapa() {
+  const alert = await this.alertController.create({
+    header: 'Seleccionar Ubicación',
+    message: '¿Dónde deseas registrar la ubicación?',
+    buttons: [
+      {
+        text: 'Casa',
+        handler: () => {
+          this.mostrarMapaParaSeleccion('casa');
+        }
+      },
+      {
+        text: 'Trabajo',
+        handler: () => {
+          this.mostrarMapaParaSeleccion('trabajo');
+        }
+      },
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      }
+    ]
+  });
+
+  await alert.present();
+}
+}
+
+
+
+
 
 /*async mostrarMapaParaSeleccion2() {
   const modal = await this.modalCtrl.create({
@@ -348,4 +383,4 @@ mostrarMapaParaSeleccion2() {
   }
 }*/
   
-}
+
