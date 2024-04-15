@@ -11,10 +11,11 @@ import { AppComponent } from './app.component';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment'; 
+import { MapaSeleccionComponent } from './mapa-seleccion/mapa-seleccion.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MapaSeleccionComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

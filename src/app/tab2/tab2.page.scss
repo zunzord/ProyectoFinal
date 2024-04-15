@@ -29,6 +29,7 @@
     --background: #ffcccc; /* Un color rojo para indicar que la tarea está vencida */
   }
   
-  .tarea-completada {
-    --background: #d9ffd9; /* Un color verde para indicar que la tarea está completada */
+  .tarea-completada-mensaje {
+    color: green;
+    font-weight: bold;
   }

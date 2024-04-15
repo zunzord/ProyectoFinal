@@ -65,7 +65,7 @@ export class MetasService {
   async obtenerMetasCompletadas() : Promise<any[]> {
     // Filtrar las metas para obtener solo las completadas
     
-    return this.metas.filter(meta => meta.completada === true);
+    return this.metas.filter(meta => meta.completada === false);
   }
 
   async obtenerMetasNoCompletadas() : Promise<any[]> {

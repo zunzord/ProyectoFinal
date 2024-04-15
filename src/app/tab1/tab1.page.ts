@@ -66,8 +66,9 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ngAfterViewInit() { 
     this.loadGoogleMapsScript().then(() => {
       this.initializeMap();
-      this.dibujarGraficos();
+      
     });
+    this.dibujarGraficos();
   }
 
   
