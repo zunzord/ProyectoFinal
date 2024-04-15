@@ -55,6 +55,25 @@ export class MetasService {
   private async guardarMetas() {
     await this.storage.set('metas', JSON.stringify(this.metas));
   }
+
+  async obtenerMetasDetalladas(): Promise<any[]> {
+    // Aquí puedes agregar lógica adicional para obtener detalles de las metas si es necesario
+    // Por ahora, simplemente devolveremos las metas filtradas por usuarioId
+    return this.metas.filter(meta => meta.usuarioId === true);
+  }
+
+  async obtenerMetasCompletadas() : Promise<any[]> {
+    // Filtrar las metas para obtener solo las completadas
+    
+    return this.metas.filter(meta => meta.completada === true);
+  }
+
+  async obtenerMetasNoCompletadas() : Promise<any[]> {
+    // Filtrar las metas para obtener solo las no completadas
+    return this.metas.filter(meta => meta.completada === true);
+  }
+
+  
 }
 
 

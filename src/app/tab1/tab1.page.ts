@@ -4,6 +4,9 @@ import { Geolocation } from '@capacitor/geolocation';
 import { Storage } from '@ionic/storage-angular';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import Chart from 'chart.js/auto';
+import { TareasService } from '../services/tareas.service';
+import { MetasService } from '../services/metas.service';
 
 
 declare var google: any;
@@ -15,8 +18,10 @@ declare var google: any;
 })
 export class Tab1Page implements OnInit, AfterViewInit {
   tareaForm!: FormGroup;
-  @ViewChild('direccionInput') direccionInput!: ElementRef; // Accede al elemento del DOM
+  @ViewChild('direccionInput') direccionInput!: ElementRef; 
   @ViewChild('map') mapElement!: ElementRef;
+  @ViewChild('metasChart') metasChart!: ElementRef; 
+  @ViewChild('tareasChart') tareasChart!: ElementRef; 
   map: any;
   marker: any;
   longPressTimer: any;
@@ -26,6 +31,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     private storage: Storage,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
+    private tareasService: TareasService,
+    private metasService: MetasService,
     private alertController: AlertController
     
   ) {}
@@ -50,6 +57,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.inicializarFormulario();
     this.initAutocomplete();
     this.loadMaps();
+    
       
    
     
@@ -58,8 +66,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ngAfterViewInit() { 
     this.loadGoogleMapsScript().then(() => {
       this.initializeMap();
+      this.dibujarGraficos();
     });
   }
+
+  
 
   initializeOrResetMap() {
     if (!this.map) {
@@ -364,7 +375,53 @@ async elegirUbicacionYMostrarMapa() {
 
   await alert.present();
 }
+
+
+async dibujarGraficos() {
+  // Supongamos que tienes funciones para obtener las tareas y metas completadas y no completadas
+  const { completadas: tareasCompletadas, noCompletadas: tareasNoCompletadas } = await this.obtenerDatosTareas();
+  const { completadas: metasCompletadas, noCompletadas: metasNoCompletadas } = await this.obtenerDatosMetas();
+
+  const tareasChart = new Chart(this.tareasChart.nativeElement, {
+    type: 'doughnut',
+    data: {
+      labels: ['Completadas', 'No Completadas'],
+      datasets: [{
+        data: [tareasCompletadas, tareasNoCompletadas],
+        backgroundColor: ['#4CAF50', '#FFC107'],
+      }]
+    }
+  });
+
+  const metasChart = new Chart(this.metasChart.nativeElement, {
+    type: 'doughnut',
+    data: {
+      labels: ['Completadas', 'No Completadas'],
+      datasets: [{
+        data: [metasCompletadas, metasNoCompletadas],
+        backgroundColor: ['#4CAF50', '#FFC107'],
+      }]
+    }
+  });
 }
+
+async obtenerDatosTareas() {
+  const tareasCompletadas = await this.tareasService.obtenerTareasCompletadas()
+  const tareasNoCompletadas = await this.tareasService.obtenerTareasNoCompletadas();
+  return { completadas: tareasCompletadas.length, noCompletadas: tareasNoCompletadas.length };
+}
+
+async obtenerDatosMetas() {
+  // Asumiendo que existe un servicio similar para las metas
+  
+  const metasCompletadas = await this.metasService.obtenerMetasCompletadas();
+  const metasNoCompletadas = await this.metasService.obtenerMetasNoCompletadas();
+  return { completadas: metasCompletadas.length, noCompletadas: metasNoCompletadas.length };
+}
+
+}
+
+
 
 
 

@@ -54,6 +54,17 @@ export class TareasService {
     tareas = tareas.filter(t => t.id !== tareaId && t.usuarioId === usuarioId);
     await this.storage.set('tareas-' + usuarioId, JSON.stringify(tareas));
   }
+
+  async obtenerTareasCompletadas(): Promise<any[]> {
+    const tareas = await this.obtenerTareas();
+    return tareas.filter(tarea => tarea.completada === true);
+  }
+
+  async obtenerTareasNoCompletadas(): Promise<any[]> {
+    const tareas = await this.obtenerTareas();
+    return tareas.filter(tarea => tarea.completada === false);
+  }
+
 }
 
 
