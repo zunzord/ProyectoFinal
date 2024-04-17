@@ -379,7 +379,7 @@ async elegirUbicacionYMostrarMapa() {
 
 
 async dibujarGraficos() {
-  // Supongamos que tienes funciones para obtener las tareas y metas completadas y no completadas
+  
   const { completadas: tareasCompletadas, noCompletadas: tareasNoCompletadas } = await this.obtenerDatosTareas();
   const { completadas: metasCompletadas, noCompletadas: metasNoCompletadas } = await this.obtenerDatosMetas();
 
@@ -413,7 +413,7 @@ async obtenerDatosTareas() {
 }
 
 async obtenerDatosMetas() {
-  // Asumiendo que existe un servicio similar para las metas
+ 
   
   const metasCompletadas = await this.metasService.obtenerMetasCompletadas();
   const metasNoCompletadas = await this.metasService.obtenerMetasNoCompletadas();
