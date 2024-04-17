@@ -20,11 +20,15 @@ export class Tab1Page implements OnInit, AfterViewInit {
   tareaForm!: FormGroup;
   @ViewChild('direccionInput') direccionInput!: ElementRef; 
   @ViewChild('map') mapElement!: ElementRef;
-  @ViewChild('metasChart') metasChart!: ElementRef; 
-  @ViewChild('tareasChart') tareasChart!: ElementRef; 
+  @ViewChild('tareasChart') tareasChart!: ElementRef<HTMLCanvasElement>; 
+  @ViewChild('metasChart') metasChart!: ElementRef<HTMLCanvasElement>;
   map: any;
   marker: any;
   longPressTimer: any;
+
+ 
+  private tareasChartInstance: Chart | null = null;
+private metasChartInstance: Chart | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,6 +38,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     private tareasService: TareasService,
     private metasService: MetasService,
     private alertController: AlertController
+    
     
   ) {}
 
@@ -58,20 +63,31 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.initAutocomplete();
     this.loadMaps();
     
-      
-   
     
+   
   }
 
+  
+
   ngAfterViewInit() { 
+    /*setTimeout(() => {
+      this.dibujarGraficos();
+    }, 100);*/
     this.loadGoogleMapsScript().then(() => {
       this.initializeMap();
       
     });
-    this.dibujarGraficos();
+    
   }
 
-  
+  ionViewDidEnter() {
+   /* if (this.necesitaRedibujarGraficos) {
+      this.dibujarGraficos();
+     
+      this.necesitaRedibujarGraficos = false;
+    }*/
+    this.dibujarGraficos();
+  }
 
   initializeOrResetMap() {
     if (!this.map) {
@@ -88,15 +104,15 @@ export class Tab1Page implements OnInit, AfterViewInit {
         this.map.addListener('dblclick', async (e: google.maps.MapMouseEvent) => {
           const confirmacion = await this.confirmarGuardarUbicacion(latLng);
           if (confirmacion) {
-            this.guardarUbicacionSeleccionada(e.latLng, "casa"); // Asumiendo "casa" como ejemplo
+            this.guardarUbicacionSeleccionada(e.latLng, "casa"); 
           }
         });
       });
     } else {
-      // Si el mapa ya existe, simplemente asegúrate de que sea visible y refresca su estado
+      
       this.mapElement.nativeElement.style.display = 'block';
       google.maps.event.trigger(this.map, 'resize');
-      this.map.setCenter(new google.maps.LatLng(-34.397, 150.644)); // Ajusta a tus coordenadas predeterminadas
+      this.map.setCenter(new google.maps.LatLng(-34.397, 150.644)); 
     }
   }
 
@@ -173,14 +189,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
             {
                 text: 'Manual',
                 handler: () => {
-                    // Mostrar mapa para selección manual
+                   
                     this.mostrarMapaParaSeleccion(tipoUbicacion);
                 }
             },
             {
                 text: 'Automático',
                 handler: () => {
-                    // Ejecutar registro automático de ubicación
+                    
                     this.registrarUbicacion(tipoUbicacion);
                 }
             },
@@ -254,7 +270,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 }
   
 async guardarUbicacionSeleccionada(latLng: google.maps.LatLng, tipoUbicacion: 'casa' | 'trabajo') {
-  // Llama a los métodos lat() y lng() para obtener los valores
+  // 
   const coordenadas = { lat: latLng.lat(), lng: latLng.lng() };
   const usuarioId = await this.obtenerUsuarioId();
   await this.storage.set(`${tipoUbicacion}-${usuarioId}`, JSON.stringify(coordenadas));
@@ -337,7 +353,7 @@ async guardarUbicacionSeleccionada(latLng: google.maps.LatLng, tipoUbicacion: 'c
     await actionSheet.present();
   }
 
-  mostrarMapa = false; // Controla la visibilidad del mapa
+  mostrarMapa = false; 
 
   async mostrarMapaParaSeleccion2(tipoUbicacion: 'casa' | 'trabajo') {
     this.initializeOrResetMap();
@@ -379,19 +395,23 @@ async elegirUbicacionYMostrarMapa() {
 
 
 async dibujarGraficos() {
+  console.log("Dibujando gráficos...");
+  
   
   const { completadas: tareasCompletadas, noCompletadas: tareasNoCompletadas } = await this.obtenerDatosTareas();
   const { completadas: metasCompletadas, noCompletadas: metasNoCompletadas } = await this.obtenerDatosMetas();
 
   const tareasChart = new Chart(this.tareasChart.nativeElement, {
+    
     type: 'doughnut',
     data: {
       labels: ['Completadas', 'No Completadas'],
       datasets: [{
         data: [tareasCompletadas, tareasNoCompletadas],
-        backgroundColor: ['#4CAF50', '#FFC107'],
+        backgroundColor: ['#264c73', '#f79220'],
       }]
     }
+    
   });
 
   const metasChart = new Chart(this.metasChart.nativeElement, {
@@ -400,11 +420,15 @@ async dibujarGraficos() {
       labels: ['Completadas', 'No Completadas'],
       datasets: [{
         data: [metasCompletadas, metasNoCompletadas],
-        backgroundColor: ['#4CAF50', '#FFC107'],
+        backgroundColor: ['#264c73', '#04aef3'],
       }]
     }
   });
+  
 }
+
+
+
 
 async obtenerDatosTareas() {
   const tareasCompletadas = await this.tareasService.obtenerTareasCompletadas()
@@ -413,13 +437,19 @@ async obtenerDatosTareas() {
 }
 
 async obtenerDatosMetas() {
- 
+  
   
   const metasCompletadas = await this.metasService.obtenerMetasCompletadas();
   const metasNoCompletadas = await this.metasService.obtenerMetasNoCompletadas();
   return { completadas: metasCompletadas.length, noCompletadas: metasNoCompletadas.length };
 }
 
+
+
+
+
+
+
 }
 
 
@@ -428,17 +458,9 @@ async obtenerDatosMetas() {
 
 
 
-/*async mostrarMapaParaSeleccion2() {
-  const modal = await this.modalCtrl.create({
-    component: MapaSeleccionComponent, // Asegúrate de importar MapaSeleccionComponent
-    // Aquí puedes pasar datos al modal si es necesario
-  });
-  await modal.present();
 
-  const { data } = await modal.onWillDismiss();
-  if (data) {
-    // Maneja los datos devueltos por el modal si es necesario
-  }
-}*/
+  
+
+
   
 
